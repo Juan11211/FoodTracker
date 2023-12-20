@@ -5,6 +5,7 @@ import morgan from 'morgan';
 import cors from 'cors';
 import foodEntryRoute from './routes/foodEntryRoute.js'; 
 import userRouter from './routes/userRoute.js';
+import openaiRoute from './routes/openaiRoute.js';
 
 const app = express();
 const PORT = 9000;
@@ -15,6 +16,7 @@ app.use(cors());
 
 app.use('/auth', userRouter);
 app.use('/food', foodEntryRoute);
+app.use('/ai', openaiRoute);
 
 mongoose
   .connect(MONGODBURI)
