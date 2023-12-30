@@ -16,13 +16,14 @@ foodEntryRoute.get('/', async (req, res) => {
 });
 
 foodEntryRoute.post('/', async (req, res) => {
-
-  const { userId, foodName, calories, date } = req.body;
+  // Assuming req.auth._id contains the user ID
+  const userId = req.auth._id;
+  const { foodName, calories, date } = req.body;
 
   try {
     // Create a new FoodEntry instance
     const newInput = new FoodEntry({
-      userId: userId,
+      userId: userId, // Use userId instead of user
       foodName: foodName,
       calories: calories,
       date: date
@@ -39,6 +40,7 @@ foodEntryRoute.post('/', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
 
 foodEntryRoute.get('/:id', async (req, res) => {
   try {
@@ -94,6 +96,18 @@ foodEntryRoute.delete('/:id', async (req, res) => {
   }
 });
 
+foodEntryRoute.get('/user/:userId', async(req, res) => { 
+  try {
+
+    // Fetch all food entries for a specific user
+    const foodEntries = await FoodEntry.find({ userId: req.params.userId });
+
+    return res.status(200).json(foodEntries);
+  } catch (error) {
+    console.error('Error fetching food entries:', error);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+})
 
 
 export default foodEntryRoute;

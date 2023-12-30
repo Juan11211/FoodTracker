@@ -6,6 +6,7 @@ import cors from 'cors';
 import foodEntryRoute from './routes/foodEntryRoute.js'; 
 import userRouter from './routes/userRoute.js';
 import openaiRoute from './routes/openaiRoute.js';
+import { expressjwt } from 'express-jwt'
 
 const app = express();
 const PORT = 9000;
@@ -13,9 +14,11 @@ const PORT = 9000;
 app.use(express.json());
 app.use(morgan('dev'));
 app.use(cors());
+app.use(express.urlencoded({ extended: true }));
 
 app.use('/auth', userRouter);
-app.use('/food', foodEntryRoute);
+app.use('/api', expressjwt({ secret: process.env.SECRET, algorithms: ['HS256'] }));
+app.use('/api/food', foodEntryRoute);
 app.use('/ai', openaiRoute);
 
 mongoose

@@ -44,7 +44,7 @@ userRouter.post("/signup", async (req, res, next) => {
     }
   });
 
-  userRouter.post("/login", async (req, res, next) => {
+userRouter.post("/login", async (req, res, next) => {
     try {
       // Validate the incoming data
       if (!req.body.username || !req.body.password) {
